@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap');
+
+:root {
+  font-family: 'IBM Plex Sans', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #eef6ff;
+  background:
+    radial-gradient(circle at top, rgba(53, 125, 168, 0.35), transparent 32%),
+    linear-gradient(180deg, #09121f 0%, #050912 58%, #04060b 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --text: #eef6ff;
+  --text-soft: #afc0d2;
+  --text-muted: #6f8497;
+  --accent: #72d3ff;
+  --code-bg: rgba(115, 188, 255, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-width: 320px;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+
+p,
+span,
+strong,
+li {
+  overflow-wrap: anywhere;
+}
+
+code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88em;
+  padding: 0.15rem 0.35rem;
+  border-radius: 8px;
+  background: var(--code-bg);
+}
