@@ -1,8 +1,10 @@
 import { buildFallbackSnapshot } from '../data/fallbackMission'
 import type { MissionSnapshot } from '../types/mission'
 
+const staticSnapshotUrl = `${import.meta.env.BASE_URL}data/artemis-snapshot.json`
 const configuredUrl =
-  import.meta.env.VITE_ARTEMIS_DATA_URL?.trim() || '/api/artemis/snapshot'
+  import.meta.env.VITE_ARTEMIS_DATA_URL?.trim() ||
+  (import.meta.env.DEV ? '/api/artemis/snapshot' : staticSnapshotUrl)
 
 type ExternalMissionSnapshot = {
   statusLine: string
@@ -50,8 +52,10 @@ function isExternalSnapshot(value: unknown): value is ExternalMissionSnapshot {
 }
 
 export async function fetchArtemisSnapshot(): Promise<MissionSnapshot> {
+  const fallback = buildFallbackSnapshot()
+
   if (!configuredUrl) {
-    return buildFallbackSnapshot()
+    return fallback
   }
 
   const response = await fetch(configuredUrl, {
@@ -73,11 +77,10 @@ export async function fetchArtemisSnapshot(): Promise<MissionSnapshot> {
   return {
     missionName: 'Artemis II',
     earthPosition: [0, 0, 0],
-    milestones: buildFallbackSnapshot().milestones,
-    fullTrajectory:
-      payload.fullTrajectory ?? buildFallbackSnapshot().fullTrajectory,
+    milestones: fallback.milestones,
+    fullTrajectory: payload.fullTrajectory ?? fallback.fullTrajectory,
     completedTrajectory:
-      payload.completedTrajectory ?? buildFallbackSnapshot().completedTrajectory,
+      payload.completedTrajectory ?? fallback.completedTrajectory,
     ...payload,
   }
 }

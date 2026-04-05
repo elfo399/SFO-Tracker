@@ -26,12 +26,14 @@
 html,
 body,
 #root {
+  height: 100%;
   min-height: 100%;
   margin: 0;
 }
 
 body {
   min-width: 320px;
+  overflow: hidden;
 }
 
 a {
@@ -58,4 +60,10 @@ code {
   padding: 0.15rem 0.35rem;
   border-radius: 8px;
   background: var(--code-bg);
+}
+
+@media (max-width: 1100px) {
+  body {
+    overflow: auto;
+  }
 }

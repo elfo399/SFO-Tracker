@@ -1,11 +1,12 @@
 # Artemis Orbit Tracker
 
-Webapp React + Vite + Three.js per seguire Artemis II in una scena 3D Terra-Luna con dati missione serviti da un backend locale.
+Webapp React + Vite + Three.js per seguire Artemis II in una scena 3D Terra-Luna. In locale usa un backend Express; su GitHub Pages viene pubblicata come sito statico con JSON generati durante la build.
 
 ## Stack
 
 - frontend: Vite + React + `@react-three/fiber`
 - backend locale: Express + `tsx`
+- deploy statico: GitHub Pages + GitHub Actions
 - fonti dati: NASA Artemis II OEM, JPL Horizons, NASA APOD
 
 ## Prerequisiti
@@ -84,6 +85,12 @@ Preview frontend buildata:
 npm.cmd run preview
 ```
 
+Generazione dei JSON statici usati da GitHub Pages:
+
+```powershell
+npm.cmd run generate:static-data
+```
+
 Avvio backend senza watch:
 
 ```powershell
@@ -99,6 +106,34 @@ npm.cmd run server
    la traiettoria completa,
    la traiettoria gia percorsa.
 4. Il frontend chiama anche `/api/nasa/apod` per il contenuto editoriale.
+5. In build statica, il frontend legge `public/data/artemis-snapshot.json` e `public/data/apod.json`.
+
+## Deploy su GitHub Pages
+
+Il repository ora include il workflow [deploy-pages.yml](C:/Users/Alfonso/Desktop/workspace/SFO-Tracker/.github/workflows/deploy-pages.yml) che:
+
+- installa le dipendenze
+- genera i JSON statici in `public/data`
+- builda Vite con il `base` del repository
+- pubblica `dist/` su GitHub Pages
+
+Per attivarlo:
+
+1. fai push su `main` o `master`
+2. in GitHub vai su `Settings > Pages`
+3. come source seleziona `GitHub Actions`
+
+Il workflow gira anche ogni ora per rigenerare i dati statici e ripubblicare la pagina.
+
+### Nota sul path base
+
+Il workflow imposta `VITE_BASE_PATH=/<nome-repository>/`.
+
+Se il repository e un *user site* del tipo `username.github.io`, cambia quel valore nel workflow a:
+
+```yaml
+VITE_BASE_PATH: /
+```
 
 ## Troubleshooting
 
@@ -166,3 +201,5 @@ Se non li vedi, fai un hard refresh del browser dopo il riavvio del dev server.
 ## Nota architetturale
 
 JPL SSD non e adatto a essere chiamato direttamente dal browser per uso web pubblico a causa dei limiti CORS e delle policy di accesso. Per questo il progetto usa un backend/proxy locale.
+
+GitHub Pages non puo eseguire il backend Node/Express: per questo il deploy Pages usa un sito statico e dati pre-generati durante la workflow run.

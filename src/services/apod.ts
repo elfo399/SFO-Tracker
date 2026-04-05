@@ -1,5 +1,9 @@
 import type { ApodEntry } from '../types/apod'
 
+const configuredUrl =
+  import.meta.env.VITE_APOD_DATA_URL?.trim() ||
+  (import.meta.env.DEV ? '/api/nasa/apod' : `${import.meta.env.BASE_URL}data/apod.json`)
+
 function isApodEntry(value: unknown): value is ApodEntry {
   if (!value || typeof value !== 'object') return false
 
@@ -16,7 +20,7 @@ function isApodEntry(value: unknown): value is ApodEntry {
 }
 
 export async function fetchApod(): Promise<ApodEntry | null> {
-  const response = await fetch('/api/nasa/apod', {
+  const response = await fetch(configuredUrl, {
     headers: {
       Accept: 'application/json',
     },

@@ -91,7 +91,7 @@ export function buildFallbackSnapshot(now = new Date()): MissionSnapshot {
   return {
     missionName: 'Artemis II',
     statusLine: currentStatus(progress),
-    sourceLabel: 'Fallback nominale',
+    sourceLabel: 'Traiettoria stimata',
     lastUpdatedLabel: now.toLocaleTimeString('it-IT', {
       hour: '2-digit',
       minute: '2-digit',
